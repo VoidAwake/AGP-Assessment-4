@@ -50,6 +50,9 @@ private:
 	float TileSize;
 
 	UPROPERTY(EditAnywhere)
+	bool bCentreOrigin;
+
+	UPROPERTY(EditAnywhere)
 	bool bClearGrid;
 
 	void ClearGridCells(TArray<TSubclassOf<ATile>> TileSet);
@@ -67,4 +70,6 @@ private:
 	int CurrentHeight;
 
 	float CurrentTileSize;
+
+	bool bCurrentCentreOrigin;
 };

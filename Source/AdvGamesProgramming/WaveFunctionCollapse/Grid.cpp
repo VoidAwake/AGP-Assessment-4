@@ -113,11 +113,15 @@ void UGrid::GenerateGrid(TArray<TSubclassOf<ATile>> TileSet)
 	CurrentDepth = Depth;
 	CurrentHeight = Height;
 	CurrentTileSize = TileSize;
+	bCurrentCentreOrigin = bCentreOrigin;
 
 	for (int x = 0; x < CurrentWidth; x++) {
 		for (int y = 0; y < CurrentDepth; y++) {
 			for (int z = 0; z < CurrentHeight; z++) {
 				FVector SpawnPosition = GetOwner()->GetActorLocation() + FVector(x, y, z) * CurrentTileSize;
+
+				if (bCurrentCentreOrigin)
+					SpawnPosition -= FVector(CurrentWidth - 1, CurrentDepth - 1, CurrentHeight - 1) * CurrentTileSize / 2;
 
 				AGridCell* SpawnedGridCell = GetWorld()->SpawnActor<AGridCell>(SpawnPosition, FRotator::ZeroRotator);
 
@@ -243,8 +247,9 @@ void UGrid::ClearGridCells(TArray<TSubclassOf<ATile>> TileSet)
 
 bool UGrid::SizeChanged()
 {
-	return	Width		!= CurrentWidth		||
-			Depth		!= CurrentDepth		||
-			Height		!= CurrentHeight	||
-			TileSize	!= CurrentTileSize;
+	return	Width			!= CurrentWidth				||
+			Depth			!= CurrentDepth				||
+			Height			!= CurrentHeight			||
+			TileSize		!= CurrentTileSize			||
+			bCentreOrigin	!= bCurrentCentreOrigin;
 }
