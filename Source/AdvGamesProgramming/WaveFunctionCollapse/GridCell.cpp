@@ -70,8 +70,7 @@ void AGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
 	
 	Tile = GetWorld()->SpawnActor<ATile>(TileTypeToSpawn, GetActorLocation(), FRotator::ZeroRotator);
 
-	// TODO: Research FAttachmentTransformRules
-	Tile->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	Tile->AttachToActor(this, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
 	//UE_LOG(LogTemp, Warning, TEXT("Cell observed"));
 }
