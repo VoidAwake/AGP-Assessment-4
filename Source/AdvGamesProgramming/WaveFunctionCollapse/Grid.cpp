@@ -118,14 +118,14 @@ void UGrid::GenerateGrid(TArray<TSubclassOf<ATile>> TileSet)
 	for (int x = 0; x < CurrentWidth; x++) {
 		for (int y = 0; y < CurrentDepth; y++) {
 			for (int z = 0; z < CurrentHeight; z++) {
-				FVector SpawnPosition = GetOwner()->GetActorLocation() + FVector(x, y, z) * CurrentTileSize;
+				FVector SpawnPosition = GetOwner()->GetActorLocation() + FVector(x, y, z) * CurrentTileSize * GetOwner()->GetActorScale3D();
 
 				if (bCurrentCentreOrigin)
-					SpawnPosition -= FVector(CurrentWidth - 1, CurrentDepth - 1, CurrentHeight - 1) * CurrentTileSize / 2;
+					SpawnPosition -= FVector(CurrentWidth - 1, CurrentDepth - 1, CurrentHeight - 1) * CurrentTileSize / 2 * GetOwner()->GetActorScale3D();
 
 				AGridCell* SpawnedGridCell = GetWorld()->SpawnActor<AGridCell>(SpawnPosition, FRotator::ZeroRotator);
 
-				SpawnedGridCell->AttachToActor(GetOwner(), FAttachmentTransformRules::KeepWorldTransform);
+				SpawnedGridCell->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false));
 
 				GridCells.Add(SpawnedGridCell);
 
