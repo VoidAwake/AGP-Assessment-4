@@ -62,4 +62,23 @@ private:
 
 	UCameraComponent* Camera;
 	class UFirstPersonAnimInstance* AnimInstance;
+
+	public:
+
+	void SetGravity(float amount) const;
+
+	bool FlagStartGravityPush;
+	
+	void PushPlayer(FVector Velocity, bool VelocityChange) const;
+
+	UPROPERTY(EditAnywhere)
+	bool IsAffectedByGravityField;
+
+	UPROPERTY(EditAnywhere)
+	bool CanBeAffectedByGravityField;
+
+	UPROPERTY(EditAnywhere)
+	class ULerp* LerpComponent;
+
+	bool IsLerpable;
 };
