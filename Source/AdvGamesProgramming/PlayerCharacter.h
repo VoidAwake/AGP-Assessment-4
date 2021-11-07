@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditInstanceOnly)
 	float SprintMultiplier;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 kills;
+
 	class UHealthComponent* HealthComponent;
 
 	// Called every frame
@@ -51,6 +54,10 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerSprintStart();
+
+	UFUNCTION(Server,Reliable, BlueprintCallable)
+	void IncrementKills(int32 amount);
+	
 	UFUNCTION(Server, Reliable)
 	void ServerSprintEnd();
 	UFUNCTION(Client, Reliable)

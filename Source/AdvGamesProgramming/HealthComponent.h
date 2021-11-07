@@ -41,5 +41,8 @@ public:
 	void OnDeath();
 
 	float HealthPercentageRemaining();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+	bool isDead;
 		
 };

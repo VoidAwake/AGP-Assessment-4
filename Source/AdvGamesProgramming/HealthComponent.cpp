@@ -25,6 +25,7 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	CurrentHealth = MaxHealth;
+	isDead = false;
 	
 }
 
@@ -61,6 +62,7 @@ void UHealthComponent::OnTakeDamage(float Damage)
 	if (CurrentHealth <= 0.0f)
 	{
 		CurrentHealth = 0;
+		isDead = true;
 		OnDeath();
 	}
 }

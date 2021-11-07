@@ -27,6 +27,8 @@ APlayerCharacter::APlayerCharacter()
 
 	SprintMovementSpeed = GetCharacterMovement()->MaxWalkSpeed * SprintMultiplier;
 	NormalMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
+	
 }
 
 // Called when the game starts or when spawned
@@ -53,6 +55,8 @@ void APlayerCharacter::BeginPlay()
 	FlagStartGravityPush = false;
 	CanBeAffectedByGravityField = true;
 	IsLerpable = true;
+
+	kills = 0;
 }
 
 // Called every frame
@@ -149,6 +153,11 @@ void APlayerCharacter::ServerSprintEnd_Implementation()
 void APlayerCharacter::Reload()
 {
 	BlueprintReload();
+}
+
+void APlayerCharacter::IncrementKills_Implementation(int32 amount)
+{
+	kills += amount;
 }
 
 void APlayerCharacter::OnDeath()

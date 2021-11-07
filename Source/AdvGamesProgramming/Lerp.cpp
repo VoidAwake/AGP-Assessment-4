@@ -5,6 +5,7 @@
 
 #include "GravComponent.h"
 #include "GravityObject.h"
+#include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Engine/Engine.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -58,16 +59,16 @@ void ULerp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 
 		} else
 		{
-			// auto character = Cast<AGravityShooterCharacter>(AffectedPlayer);
-			//
-			// if (character != nullptr)
-			// {
-			// 	UE_LOG(LogTemp,Warning,TEXT("LerpStarted"));
-			// 	character->FlagStartGravityPush = true;
-			// 	StartDelay(1.0f);
-			// }
-			//
-			// IsLerping = false;
+			auto character = Cast<APlayerCharacter>(AffectedPlayer);
+			
+			if (character != nullptr)
+			{
+				UE_LOG(LogTemp,Warning,TEXT("LerpStarted"));
+				character->FlagStartGravityPush = true;
+				StartDelay(1.0f);
+			}
+			
+			IsLerping = false;
 		}
 	} else if (IsLerping && AffectedActor != nullptr)
 	{
@@ -95,7 +96,7 @@ void ULerp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 		}
 	}
 		
-	// ...
+	//...
 }
 
 void ULerp::LerpFVector(AActor* Actor, const FVector Start, const FVector End, const float 
@@ -131,61 +132,61 @@ Duration)
 
 void ULerp::LerpFVector(APawn* Player,  FVector Start,  FVector End, const float Duration)
 {
-	//auto character = Cast<AGravityShooterCharacter>(Player);
+	auto character = Cast<APlayerCharacter>(Player);
 
-	// if (IsLerping || !character->IsLerpable)
-	// 	return;
-	//
-	// UE_LOG(LogTemp,Warning,TEXT("LERPSETUP"));
-	//
-	// AffectedPlayer = Player;
-	// StartPosition = Start;
-	// EndPosition = End;
-	// TimeElapsed = 0.0f;
-	// LerpDuration = Duration;
-	// IsLerping = true;
+	 if (IsLerping || !character->IsLerpable)
+	 	return;
+	
+	 UE_LOG(LogTemp,Warning,TEXT("LERPSETUP"));
+	
+	 AffectedPlayer = Player;
+	 StartPosition = Start;
+	 EndPosition = End;
+	 TimeElapsed = 0.0f;
+	 LerpDuration = Duration;
+	 IsLerping = true;
 
 
-	// character->GetCharacterMovement()->StopMovementImmediately();
-	// character->IsLerpable = false;
+	 character->GetCharacterMovement()->StopMovementImmediately();
+	 character->IsLerpable = false;
 
 	
-	//GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Red, AffectedPlayer->GetName());
+	GEngine->AddOnScreenDebugMessage(-1, 15, FColor::Red, AffectedPlayer->GetName());
 
 }
 
 void ULerp::Delay(float DeltaTime)
 {
-	//auto character = Cast<AGravityShooterCharacter>(AffectedPlayer);
+	auto character = Cast<APlayerCharacter>(AffectedPlayer);
 
-	// if (character != nullptr)
-	// {
-	// 	if (DelayElapsedTime < TimeOfDelay)
-	// 	{
-	// 		UE_LOG(LogTemp,Warning,TEXT("isdelayed"));
-	// 		DelayElapsedTime += DeltaTime;
-	// 	} else
-	// 	{
-	// 		UE_LOG(LogTemp,Warning,TEXT("delayedcomplete"));
-	// 		character->IsLerpable = true;
-	// 		DoDelay = false;
-	// 		DelayElapsedTime = 0;
-	// 	}
-	// } else
-	// {
-	// 	if (DelayElapsedTime < TimeOfDelay)
-	// 	{
-	// 		UE_LOG(LogTemp,Warning,TEXT("isdelayed"));
-	// 		DelayElapsedTime += DeltaTime;
-	// 	} else
-	// 	{
-	// 		UE_LOG(LogTemp,Warning,TEXT("delayedcomplete"));
-	// 		UGravComponent* gravComponent = Cast<UGravComponent>(AffectedActor->GetComponentByClass(UGravComponent::StaticClass()));
-	// 		gravComponent->IsLerpable = false;
-	// 		DoDelay = false;
-	// 		DelayElapsedTime = 0;
-	// 	}
-	// }
+	 if (character != nullptr)
+	 {
+	 	if (DelayElapsedTime < TimeOfDelay)
+	 	{
+	 		UE_LOG(LogTemp,Warning,TEXT("isdelayed"));
+	 		DelayElapsedTime += DeltaTime;
+	 	} else
+	 	{
+	 		UE_LOG(LogTemp,Warning,TEXT("delayedcomplete"));
+	 		character->IsLerpable = true;
+	 		DoDelay = false;
+	 		DelayElapsedTime = 0;
+	 	}
+	 } else
+	 {
+	 	if (DelayElapsedTime < TimeOfDelay)
+	 	{
+	 		UE_LOG(LogTemp,Warning,TEXT("isdelayed"));
+	 		DelayElapsedTime += DeltaTime;
+	 	} else
+	 	{
+	 		UE_LOG(LogTemp,Warning,TEXT("delayedcomplete"));
+	 		UGravComponent* gravComponent = Cast<UGravComponent>(AffectedActor->GetComponentByClass(UGravComponent::StaticClass()));
+	 		gravComponent->IsLerpable = false;
+	 		DoDelay = false;
+	 		DelayElapsedTime = 0;
+	 	}
+	 }
 }
 
 void ULerp::StartDelay(float timeOfDelay)
