@@ -7,6 +7,8 @@ AGridCell::AGridCell()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Component"));
+
+	bReplicates = true;
 }
 
 void AGridCell::BeginPlay()
@@ -71,6 +73,8 @@ void AGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
 	Tile = GetWorld()->SpawnActor<ATile>(TileTypeToSpawn, GetActorLocation(), FRotator::ZeroRotator);
 
 	Tile->AttachToActor(this, FAttachmentTransformRules::SnapToTargetIncludingScale);
+
+	Tile->ForceNetUpdate();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Cell observed"));
 }

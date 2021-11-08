@@ -5,6 +5,8 @@ ATile::ATile()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Component"));
+
+	bReplicates = true;
 }
 
 void ATile::BeginPlay()

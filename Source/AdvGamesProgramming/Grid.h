@@ -53,6 +53,9 @@ private:
 	bool bCentreOrigin;
 
 	UPROPERTY(EditAnywhere)
+	TSubclassOf<ATile> NewBorderTile;
+
+	UPROPERTY(EditAnywhere)
 	bool bClearGrid;
 
 	void ClearGridCells(TArray<TSubclassOf<ATile>> TileSet);
