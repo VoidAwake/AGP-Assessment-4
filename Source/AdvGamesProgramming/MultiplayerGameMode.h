@@ -6,8 +6,6 @@
 #include "GameFramework/GameMode.h"
 #include "MultiplayerGameMode.generated.h"
 
-
-
 /**
  * 
  */
@@ -26,9 +24,6 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class APickup> WeaponPickupClass;
 
-	UPROPERTY()
-	TArray<int32> Kills;
-	
 	void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessages) override;
 	void Respawn(AController* Controller);
 	UFUNCTION()

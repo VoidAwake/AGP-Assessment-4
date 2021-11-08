@@ -76,17 +76,17 @@ private:
 
 	int Observe();
 
-	AGridCell* GetCellWithMinEntropy();
+	UGridCell* GetCellWithMinEntropy();
 
 	bool Propagate(bool bEnableBacktrack = true);
 
-	bool RemoveDisallowedTileTypes(AGridCell* GridCell, AGridCell* AdjacentGridCell, EDirection Direction);
+	bool RemoveDisallowedTileTypes(UGridCell* GridCell, UGridCell* AdjacentGridCell, EDirection Direction);
 
 	void CreateBorders();
 
 	//bool Backtrack();
 
-	TQueue<AGridCell*> ChangedCellsQueue;
+	TQueue<UGridCell*> ChangedCellsQueue;
 
 	TArray<EDirection> Directions;
 

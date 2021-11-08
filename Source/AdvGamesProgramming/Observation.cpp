@@ -1,6 +1,6 @@
 #include "Observation.h"
 
-void UObservation::Initialise(AGridCell* GridCellArg)
+void UObservation::Initialise(UGridCell* GridCellArg)
 {
 	GridCell = GridCellArg;
 

@@ -1,32 +1,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "UObject/NoExportTypes.h"
 #include "Tile.h"
 #include "Direction.h"
 #include "Propagation.h"
 #include "GridCell.generated.h"
 
 UCLASS()
-class ADVGAMESPROGRAMMING_API AGridCell : public AActor
+class ADVGAMESPROGRAMMING_API UGridCell : public UObject
 {
 	GENERATED_BODY()
 	
 public:	
-	AGridCell();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(VisibleAnywhere)
 	TArray<TSubclassOf<ATile>> Wave;
 
-	void Initialise(TArray<TSubclassOf<ATile>> TileSet, int x, int y, int z);
+	void Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, TSubclassOf<ATile> EmptyTileArg, int x, int y, int z);
 
-	void Initialise(TArray<TSubclassOf<ATile>> TileSet);
+	void Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet);
 
 	bool Allows(TSubclassOf<ATile> NeighbourTileType, EDirection Direction);
 
@@ -45,6 +37,12 @@ public:
 	FVector GridPosition;
 
 	ATile* Tile;
+
+	AActor* Parent;
+
+	FVector WorldPosition;
+
+	TSubclassOf<ATile> EmptyTile;
 
 private:
 	//TArray<UPropagation*> RecordedWaves;

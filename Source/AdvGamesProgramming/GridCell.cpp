@@ -2,24 +2,7 @@
 #include "Engine/World.h"
 #include "DirectionUtility.h"
 
-AGridCell::AGridCell()
-{
-	PrimaryActorTick.bCanEverTick = false;
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Component"));
-}
-
-void AGridCell::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void AGridCell::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AGridCell::Observe()
+void UGridCell::Observe()
 {
 	//RecordWave();
 
@@ -29,7 +12,7 @@ void AGridCell::Observe()
 	CreateTile(TileTypeToSpawn);
 }
 
-//bool AGridCell::RestoreWave()
+//bool UGridCell::RestoreWave()
 //{
 //	TArray<TSubclassOf<ATile>> OldWave = RecordedWaves.Pop()->OldWave;
 //
@@ -56,42 +39,70 @@ void AGridCell::Observe()
 //	return Wave.Num() > 0;
 //}
 
-void AGridCell::Clear()
+void UGridCell::Clear()
 {
 	if (Tile)
 		Tile->Destroy();
 }
 
-void AGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
+void UGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
 {
 	Clear();
 
 	Wave = { TileTypeToSpawn };
-	
-	Tile = GetWorld()->SpawnActor<ATile>(TileTypeToSpawn, GetActorLocation(), FRotator::ZeroRotator);
 
-	Tile->AttachToActor(this, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	if (!Parent) {
+		UE_LOG(LogTemp, Warning, TEXT("Tile Creation Failed: No parent to attach tile to."));
+		return;
+	}
+
+	UWorld* World = Parent->GetWorld();
+
+	if (!World) {
+		UE_LOG(LogTemp, Warning, TEXT("Tile Creation Failed: Could not find world."));
+		return;
+	}
+
+	// Prevent spawning of empty tiles
+	if (TileTypeToSpawn == EmptyTile)
+		return;
+	
+	Tile = World->SpawnActor<ATile>(
+		TileTypeToSpawn,
+		WorldPosition,
+		FRotator::ZeroRotator
+	);
+
+	Tile->AttachToActor(Parent, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false));
+
+	Tile->ForceNetUpdate();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Cell observed"));
 }
 
-void AGridCell::Initialise(TArray<TSubclassOf<ATile>> TileSet, int x, int y, int z)
+void UGridCell::Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, TSubclassOf<ATile> EmptyTileArg, int x, int y, int z)
 {
-	Initialise(TileSet);
+	Initialise(ParentArg, TileSet);
+
+	WorldPosition = WorldPositionArg;
+
+	EmptyTile = EmptyTileArg;
 
 	GridPosition = FVector(x, y, z);
 }
 
-void AGridCell::Initialise(TArray<TSubclassOf<ATile>> TileSet)
+void UGridCell::Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet)
 {
 	Wave.Empty();
 
 	for (auto TileType : TileSet) {
 		Wave.Add(TileType);
 	}
+
+	Parent = ParentArg;
 }
 
-bool AGridCell::Allows(TSubclassOf<ATile> NeighbourTileType, EDirection Direction)
+bool UGridCell::Allows(TSubclassOf<ATile> NeighbourTileType, EDirection Direction)
 {
 	EDirection Opposite = DirectionUtility::OppositeDirection(Direction);
 
@@ -105,7 +116,7 @@ bool AGridCell::Allows(TSubclassOf<ATile> NeighbourTileType, EDirection Directio
 	return false;
 }
 
-bool AGridCell::RemoveTileTypesFromWave(TArray<TSubclassOf<ATile>> TileTypesToRemove) {
+bool UGridCell::RemoveTileTypesFromWave(TArray<TSubclassOf<ATile>> TileTypesToRemove) {
 	if (TileTypesToRemove.Num() == 0)
 		return true;
 
@@ -124,7 +135,7 @@ bool AGridCell::RemoveTileTypesFromWave(TArray<TSubclassOf<ATile>> TileTypesToRe
 	return true;
 }
 
-//void AGridCell::RecordWave()
+//void UGridCell::RecordWave()
 //{
 //	UPropagation* WaveRecord = NewObject<UPropagation>(this);
 //

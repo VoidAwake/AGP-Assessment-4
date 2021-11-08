@@ -24,7 +24,7 @@ void UGrid::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 	}
 }
 
-AGridCell* UGrid::GetGridCell(int x, int y, int z)
+UGridCell* UGrid::GetGridCell(int x, int y, int z)
 {
 	int GridCellIndex = x * Depth * Height + y * Height + z;
 
@@ -38,38 +38,24 @@ void UGrid::Clear()
 {
 	// Clear and destroy all GridCells
 	for (auto GridCell : GridCells) {
-		GridCell->Clear();
+		if (GridCell)
+			GridCell->Clear();
 
-		GridCell->Destroy();
+		//GridCell->Destroy();
 	}
 
 	GridCells.Empty();
 
-	// Since references are not persistent, also destroy all attached GridCell actors
-	TArray<AActor*> AttachedGridCellActors;
+	// Since references are not persistent, also destroy all attached Tile actors
+	TArray<AActor*> AttachedTileActors;
 	
-	GetOwner()->GetAttachedActors(AttachedGridCellActors);
+	GetOwner()->GetAttachedActors(AttachedTileActors);
 
-	for (auto AttachedGridCellActor : AttachedGridCellActors) {
-		AGridCell* GridCell = Cast<AGridCell>(AttachedGridCellActor);
+	for (auto AttachedTileActor : AttachedTileActors) {
+		ATile* Tile = Cast<ATile>(AttachedTileActor);
 
-		if (GridCell) {
-			GridCell->Clear();
-
-			// Destroy all attached Tile actors
-			TArray<AActor*> AttachedTileActors;
-
-			GridCell->GetAttachedActors(AttachedTileActors);
-
-			for (auto AttachedTileActor : AttachedTileActors) {
-				ATile* Tile = Cast<ATile>(AttachedTileActor);
-
-				if (Tile) {
-					Tile->Destroy();
-				}
-			}
-
-			GridCell->Destroy();
+		if (Tile) {
+			Tile->Destroy();
 		}
 	}
 
@@ -78,19 +64,19 @@ void UGrid::Clear()
 	CurrentHeight = 0;
 }
 
-void UGrid::ForEachGridCell(TFunctionRef<void(AGridCell*)> Func)
+void UGrid::ForEachGridCell(TFunctionRef<void(UGridCell*)> Func)
 {
-	ForEachGridCell([&](AGridCell* GridCell, int x, int y, int z) {
+	ForEachGridCell([&](UGridCell* GridCell, int x, int y, int z) {
 		Func(GridCell);
 	});
 }
 
-void UGrid::ForEachGridCell(TFunctionRef<void(AGridCell*, int, int, int)> Func)
+void UGrid::ForEachGridCell(TFunctionRef<void(UGridCell*, int, int, int)> Func)
 {
 	for (int x = 0; x < CurrentWidth; x++) {
 		for (int y = 0; y < CurrentDepth; y++) {
 			for (int z = 0; z < CurrentHeight; z++) {
-				AGridCell* GridCell = GetGridCell(x, y, z);
+				UGridCell* GridCell = GetGridCell(x, y, z);
 
 				if (GridCell)
 					Func(GridCell, x, y, z);
@@ -123,19 +109,19 @@ void UGrid::GenerateGrid(TArray<TSubclassOf<ATile>> TileSet)
 				if (bCurrentCentreOrigin)
 					SpawnPosition -= FVector(CurrentWidth - 1, CurrentDepth - 1, CurrentHeight - 1) * CurrentTileSize / 2 * GetOwner()->GetActorScale3D();
 
-				AGridCell* SpawnedGridCell = GetWorld()->SpawnActor<AGridCell>(SpawnPosition, FRotator::ZeroRotator);
+				UGridCell* SpawnedGridCell = NewObject<UGridCell>();
 
-				SpawnedGridCell->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false));
+				//SpawnedGridCell->AttachToActor(GetOwner(), FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false));
 
 				GridCells.Add(SpawnedGridCell);
 
-				SpawnedGridCell->Initialise(TileSet, x, y, z);
+				SpawnedGridCell->Initialise(GetOwner(), TileSet, SpawnPosition, EmptyTile, x, y, z);
 			}
 		}
 	}
 }
 
-AGridCell* UGrid::GetAdjacentCell(int x, int y, int z, EDirection Direction)
+UGridCell* UGrid::GetAdjacentCell(int x, int y, int z, EDirection Direction)
 {
 	switch (Direction)
 	{
@@ -168,7 +154,7 @@ AGridCell* UGrid::GetAdjacentCell(int x, int y, int z, EDirection Direction)
 	return nullptr;
 }
 
-AGridCell* UGrid::GetAdjacentCell(AGridCell* GridCell, EDirection Direction)
+UGridCell* UGrid::GetAdjacentCell(UGridCell* GridCell, EDirection Direction)
 {
 	if (GridCell)
 		return GetAdjacentCell(GridCell->GridPosition.X, GridCell->GridPosition.Y, GridCell->GridPosition.Z, Direction);
@@ -176,9 +162,9 @@ AGridCell* UGrid::GetAdjacentCell(AGridCell* GridCell, EDirection Direction)
 		return nullptr;
 }
 
-TArray<AGridCell*> UGrid::CreateBorders(TSubclassOf<ATile> BorderTile)
+TArray<UGridCell*> UGrid::CreateBorders(TSubclassOf<ATile> BorderTile)
 {
-	TArray<AGridCell*> ChangedGridCells;
+	TArray<UGridCell*> ChangedGridCells;
 
 	if (!BorderTile) {
 		UE_LOG(LogTemp, Warning, TEXT("Border Creation Failed: Border tile not set."));
@@ -215,14 +201,14 @@ TArray<AGridCell*> UGrid::CreateBorders(TSubclassOf<ATile> BorderTile)
 	return ChangedGridCells;
 }
 
-void UGrid::TryCreateBorderTile(UPARAM(ref) TArray<AGridCell*>& ChangedGridCells, TSubclassOf<ATile> BorderTile, int x, int y, int z)
+void UGrid::TryCreateBorderTile(UPARAM(ref) TArray<UGridCell*>& ChangedGridCells, TSubclassOf<ATile> BorderTile, int x, int y, int z)
 {
 	if (!BorderTile) {
 		UE_LOG(LogTemp, Warning, TEXT("Border Tile Creation Failed: Border tile not set."));
 		return;
 	}
 
-	AGridCell* GridCell = GetGridCell(x, y, z);
+	UGridCell* GridCell = GetGridCell(x, y, z);
 
 	if (!GridCell) {
 		UE_LOG(LogTemp, Warning, TEXT("Border Tile Creation Failed: Grid cell could not be found."));
@@ -239,9 +225,12 @@ void UGrid::TryCreateBorderTile(UPARAM(ref) TArray<AGridCell*>& ChangedGridCells
 void UGrid::ClearGridCells(TArray<TSubclassOf<ATile>> TileSet)
 {
 	for (auto GridCell : GridCells) {
+		if (!GridCell)
+			continue;
+
 		GridCell->Clear();
 
-		GridCell->Initialise(TileSet);
+		GridCell->Initialise(GetOwner(), TileSet);
 	}
 }
 

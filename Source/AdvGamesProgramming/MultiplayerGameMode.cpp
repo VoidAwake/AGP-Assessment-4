@@ -38,8 +38,6 @@ void AMultiplayerGameMode::InitGame(const FString& MapName, const FString& Optio
 		PickupManager->Init(ProceduralMap->Vertices, WeaponPickupClass, WEAPON_PICKUP_SPAWN_INTERVAL);
 	}
 
-	
-
 }
 
 void AMultiplayerGameMode::Respawn(AController* Controller)
@@ -89,9 +87,6 @@ void AMultiplayerGameMode::TriggerRespawn(AController* Controller)
 			if (SpawnedPlayer)
 			{
 				Controller->Possess(SpawnedPlayer);
-
-				APlayerCharacter* character = Cast<APlayerCharacter>(SpawnedPlayer);
-				
 			}
 		}
 	}

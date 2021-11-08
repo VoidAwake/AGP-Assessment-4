@@ -1,13 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Engine/StaticMeshActor.h"
 #include "Direction.h"
 #include "FaceTag.h"
 #include "Tile.generated.h"
 
 UCLASS()
-class ADVGAMESPROGRAMMING_API ATile : public AActor
+class ADVGAMESPROGRAMMING_API ATile : public AStaticMeshActor
 {
 	GENERATED_BODY()
 	

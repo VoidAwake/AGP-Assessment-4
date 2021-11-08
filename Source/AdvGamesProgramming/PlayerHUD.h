@@ -21,7 +21,6 @@ private:
 	class UProgressBar* HealthProgressBar;
 	class UTextBlock* RoundsInMagazineText;
 	UTextBlock* RoundsRemainingText;
-	UTextBlock* KillText;
 
 public:
 
@@ -32,11 +31,5 @@ public:
 	void ShowHUD();
 	UFUNCTION(BlueprintCallable)
 	void SetAmmoText(int32 RoundsRemaining, int32 RoundsInMagazine);
-
-	UFUNCTION(BlueprintCallable)
-	void SetKillsAmount(int32 Kills);
-
-	UPROPERTY(BlueprintReadWrite)
-	int32 currentKills;
 	
 };
