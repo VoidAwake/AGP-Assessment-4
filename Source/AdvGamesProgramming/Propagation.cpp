@@ -1,6 +1,6 @@
 #include "Propagation.h"
 
-//void UPropagation::Initialise(AGridCell* GridCellArg) {
+//void UPropagation::Initialise(UGridCell* GridCellArg) {
 //	GridCell = GridCellArg;
 //
 //	if (GridCellArg)

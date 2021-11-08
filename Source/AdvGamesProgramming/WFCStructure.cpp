@@ -141,7 +141,7 @@ void AWFCStructure::Generate()
 
 int AWFCStructure::Observe()
 {
-	AGridCell* CellWithMinEntropy = GetCellWithMinEntropy();
+	UGridCell* CellWithMinEntropy = GetCellWithMinEntropy();
 
 	if (!CellWithMinEntropy)
 		return 1; // Complete or failed
@@ -163,15 +163,15 @@ int AWFCStructure::Observe()
 	return 0; // Continue
 }
 
-AGridCell* AWFCStructure::GetCellWithMinEntropy()
+UGridCell* AWFCStructure::GetCellWithMinEntropy()
 {
 	if (!TileSet)
 		return nullptr;
 
 	int MinEntropy = TileSet->TileSet.Num() + 1;
-	AGridCell* CellWithMinEntropy = nullptr;
+	UGridCell* CellWithMinEntropy = nullptr;
 
-	Grid->ForEachGridCell([&](AGridCell* GridCell) {
+	Grid->ForEachGridCell([&](UGridCell* GridCell) {
 		int WaveSize = GridCell->Wave.Num();
 
 		if (WaveSize == MinEntropy) {
@@ -196,11 +196,11 @@ bool AWFCStructure::Propagate(bool bEnableBacktrack)
 		return false;
 
 	while (!ChangedCellsQueue.IsEmpty()) {
-		AGridCell* GridCell = *(ChangedCellsQueue.Peek());
+		UGridCell* GridCell = *(ChangedCellsQueue.Peek());
 		ChangedCellsQueue.Pop();
 
 		for (auto Direction : Directions) {
-			AGridCell* AdjacentCell = Grid->GetAdjacentCell(GridCell, Direction);
+			UGridCell* AdjacentCell = Grid->GetAdjacentCell(GridCell, Direction);
 
 			if (!AdjacentCell)
 				continue;
@@ -217,7 +217,7 @@ bool AWFCStructure::Propagate(bool bEnableBacktrack)
 	return true;
 }
 
-bool AWFCStructure::RemoveDisallowedTileTypes(AGridCell* GridCell, AGridCell* AdjacentGridCell, EDirection Direction)
+bool AWFCStructure::RemoveDisallowedTileTypes(UGridCell* GridCell, UGridCell* AdjacentGridCell, EDirection Direction)
 {
 	TArray<TSubclassOf<ATile>> TilesToRemove;
 

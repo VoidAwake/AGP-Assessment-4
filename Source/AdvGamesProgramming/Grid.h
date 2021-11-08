@@ -20,21 +20,21 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	AGridCell* GetGridCell(int x, int y, int z);
+	UGridCell* GetGridCell(int x, int y, int z);
 
 	void Clear();
 
-	void ForEachGridCell(TFunctionRef<void(AGridCell*)> Func);
+	void ForEachGridCell(TFunctionRef<void(UGridCell*)> Func);
 
-	void ForEachGridCell(TFunctionRef<void(AGridCell*, int, int, int)> Func);
+	void ForEachGridCell(TFunctionRef<void(UGridCell*, int, int, int)> Func);
 
 	void GenerateGrid(TArray<TSubclassOf<ATile>> TileSet);
 
-	AGridCell* GetAdjacentCell(int x, int y, int z, EDirection Direction);
+	UGridCell* GetAdjacentCell(int x, int y, int z, EDirection Direction);
 
-	AGridCell* GetAdjacentCell(AGridCell* GridCell, EDirection Direction);
+	UGridCell* GetAdjacentCell(UGridCell* GridCell, EDirection Direction);
 
-	TArray<AGridCell*> CreateBorders(TSubclassOf<ATile> BorderTile);
+	TArray<UGridCell*> CreateBorders(TSubclassOf<ATile> BorderTile);
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -62,9 +62,10 @@ private:
 
 	bool SizeChanged();
 
-	void TryCreateBorderTile(TArray<AGridCell*>& ChangedGridCells, TSubclassOf<ATile> BorderTile, int x, int y, int z);
+	void TryCreateBorderTile(TArray<UGridCell*>& ChangedGridCells, TSubclassOf<ATile> BorderTile, int x, int y, int z);
 
-	TArray<AGridCell*> GridCells;
+	UPROPERTY()
+	TArray<UGridCell*> GridCells;
 
 	int CurrentWidth;
 

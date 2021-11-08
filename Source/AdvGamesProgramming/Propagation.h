@@ -12,9 +12,9 @@ class ADVGAMESPROGRAMMING_API UPropagation : public UObject
 	GENERATED_BODY()
 
 public:
-	//void Initialise(AGridCell* GridCellArg);
+	//void Initialise(UGridCell* GridCellArg);
 
-	//AGridCell* GridCell;
+	//UGridCell* GridCell;
 
 	TArray<TSubclassOf<ATile>> OldWave;
 };
