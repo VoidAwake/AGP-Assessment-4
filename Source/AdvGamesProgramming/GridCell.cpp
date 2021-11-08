@@ -62,8 +62,16 @@ void UGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
 		UE_LOG(LogTemp, Warning, TEXT("Tile Creation Failed: Could not find world."));
 		return;
 	}
+
+	// Prevent spawning of empty tiles
+	if (TileTypeToSpawn == EmptyTile)
+		return;
 	
-	Tile = World->SpawnActor<ATile>(TileTypeToSpawn, WorldPosition, FRotator::ZeroRotator);
+	Tile = World->SpawnActor<ATile>(
+		TileTypeToSpawn,
+		WorldPosition,
+		FRotator::ZeroRotator
+	);
 
 	Tile->AttachToActor(Parent, FAttachmentTransformRules(EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, EAttachmentRule::KeepRelative, false));
 
@@ -72,11 +80,13 @@ void UGridCell::CreateTile(TSubclassOf<ATile> TileTypeToSpawn)
 	//UE_LOG(LogTemp, Warning, TEXT("Cell observed"));
 }
 
-void UGridCell::Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, int x, int y, int z)
+void UGridCell::Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, TSubclassOf<ATile> EmptyTileArg, int x, int y, int z)
 {
 	Initialise(ParentArg, TileSet);
 
 	WorldPosition = WorldPositionArg;
+
+	EmptyTile = EmptyTileArg;
 
 	GridPosition = FVector(x, y, z);
 }

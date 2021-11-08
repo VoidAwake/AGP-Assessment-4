@@ -34,6 +34,9 @@ void AWFCStructure::BeginPlay()
 	if (GetLocalRole() == ROLE_Authority) {
 		ServerGenerate();
 	}
+	else {
+		Generate();
+	}
 }
 
 void AWFCStructure::Tick(float DeltaTime)

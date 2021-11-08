@@ -16,7 +16,7 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	TArray<TSubclassOf<ATile>> Wave;
 
-	void Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, int x, int y, int z);
+	void Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet, FVector WorldPositionArg, TSubclassOf<ATile> EmptyTileArg, int x, int y, int z);
 
 	void Initialise(AActor* ParentArg, TArray<TSubclassOf<ATile>> TileSet);
 
@@ -41,6 +41,8 @@ public:
 	AActor* Parent;
 
 	FVector WorldPosition;
+
+	TSubclassOf<ATile> EmptyTile;
 
 private:
 	//TArray<UPropagation*> RecordedWaves;

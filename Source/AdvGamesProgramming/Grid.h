@@ -53,7 +53,7 @@ private:
 	bool bCentreOrigin;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<ATile> NewBorderTile;
+	TSubclassOf<ATile> EmptyTile;
 
 	UPROPERTY(EditAnywhere)
 	bool bClearGrid;

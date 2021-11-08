@@ -115,7 +115,7 @@ void UGrid::GenerateGrid(TArray<TSubclassOf<ATile>> TileSet)
 
 				GridCells.Add(SpawnedGridCell);
 
-				SpawnedGridCell->Initialise(GetOwner(), TileSet, SpawnPosition, x, y, z);
+				SpawnedGridCell->Initialise(GetOwner(), TileSet, SpawnPosition, EmptyTile, x, y, z);
 			}
 		}
 	}
