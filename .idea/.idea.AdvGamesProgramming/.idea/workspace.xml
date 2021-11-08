@@ -5,24 +5,7 @@
     <projectFile>Intermediate/ProjectFiles/UE4.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="405c3ddb-b6dc-4198-b31c-d4dc1c44dc58" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Blueprints/GunBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Blueprints/GunBlueprint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Blueprints/PlayerCharacterBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Blueprints/PlayerCharacterBlueprint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Blueprints/WeaponPickupBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Blueprints/WeaponPickupBlueprint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/GravityField/GravityFieldBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/GravityField/GravityFieldBlueprint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/MultiplayerMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/MultiplayerMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Widgets/PlayerHUDWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widgets/PlayerHUDWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/HealthComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/HealthComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/HealthComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/HealthComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/Lerp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/Lerp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/MultiplayerGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/MultiplayerGameMode.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/MultiplayerGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/MultiplayerGameMode.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerHUD.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerHUD.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerHUD.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/PlayerHUD.h" afterDir="false" />
-    </list>
+    <list default="true" id="405c3ddb-b6dc-4198-b31c-d4dc1c44dc58" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
