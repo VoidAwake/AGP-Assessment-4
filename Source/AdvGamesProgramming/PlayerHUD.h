@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerCharacter.h"
 #include "GameFramework/HUD.h"
 #include "PlayerHUD.generated.h"
 
@@ -21,6 +22,8 @@ private:
 	class UProgressBar* HealthProgressBar;
 	class UTextBlock* RoundsInMagazineText;
 	UTextBlock* RoundsRemainingText;
+	UTextBlock* KillsText;
+	UTextBlock* DeathsText;
 
 public:
 
@@ -31,5 +34,8 @@ public:
 	void ShowHUD();
 	UFUNCTION(BlueprintCallable)
 	void SetAmmoText(int32 RoundsRemaining, int32 RoundsInMagazine);
+
+	UFUNCTION()
+	void SetKillAndDeath(int32 Kills, int32 Deaths);
 	
 };

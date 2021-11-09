@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+
+#include "MultiplayerGameMode.h"
 #include "Engine/GameEngine.h"
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
@@ -70,7 +72,9 @@ void UHealthComponent::OnDeath()
 	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwner());
 	if (PlayerCharacter)
 	{
+		
 		PlayerCharacter->OnDeath();
+;
 	}
 }
 

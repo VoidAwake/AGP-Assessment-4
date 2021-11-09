@@ -12,6 +12,7 @@
 #include "Engine/World.h"
 #include "PlayerHUD.h"
 #include "GameFramework/HUD.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -53,6 +54,17 @@ void APlayerCharacter::BeginPlay()
 	FlagStartGravityPush = false;
 	CanBeAffectedByGravityField = true;
 	IsLerpable = true;
+	// Stat = FPlayerStat();
+	//
+	Stat = FPlayerStat();
+	Stat.SetOwner(this);
+	
+	AMultiplayerGameMode* MultiplayerGameMode = Cast<AMultiplayerGameMode>(GetWorld()->GetAuthGameMode());
+	if (MultiplayerGameMode)
+	{
+		MultiplayerGameMode->AddPlayer(this);
+	}
+
 }
 
 // Called every frame
@@ -158,11 +170,56 @@ void APlayerCharacter::OnDeath()
 		AMultiplayerGameMode* MultiplayerGameMode = Cast<AMultiplayerGameMode>(GetWorld()->GetAuthGameMode());
 		if (MultiplayerGameMode)
 		{
+			IncrementDeaths();
+			MultiplayerGameMode->UpdateStat(Stat);
 			MultiplayerGameMode->Respawn(GetController());
 		}
 		else
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Unable to find the GameMode"))
+		}
+	}
+}
+
+void APlayerCharacter::IncrementKills()
+{
+
+	if (IsLocallyControlled())
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+		{
+			if (APlayerHUD* PlayerHUD = Cast<APlayerHUD>(PlayerController->GetHUD()))
+			{
+				Stat.SetKills(Stat.Kills + 1);
+				PlayerHUD->SetKillAndDeath(Stat.Kills,Stat.Deaths);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Can't find HUD on controller. AUTONOMOUS"))
+			}
+        		
+			UE_LOG(LogTemp,Error,TEXT("CURRENT KILLS%i"),Stat.Kills);
+		}
+	}
+}
+
+void APlayerCharacter::IncrementDeaths()
+{
+	if (IsLocallyControlled())
+	{
+		if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+		{
+			if (APlayerHUD* PlayerHUD = Cast<APlayerHUD>(PlayerController->GetHUD()))
+			{
+				Stat.SetKills(Stat.Deaths + 1);
+				PlayerHUD->SetKillAndDeath(Stat.Kills,Stat.Deaths);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Can't find HUD on controller. AUTONOMOUS"))
+			}
+        		
+			UE_LOG(LogTemp,Error,TEXT("CURRENT KILLS%i"),Stat.Kills);
 		}
 	}
 }

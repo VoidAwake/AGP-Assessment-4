@@ -38,6 +38,19 @@ void AMultiplayerGameMode::InitGame(const FString& MapName, const FString& Optio
 		PickupManager->Init(ProceduralMap->Vertices, WeaponPickupClass, WEAPON_PICKUP_SPAWN_INTERVAL);
 	}
 
+	
+	for (TActorIterator<APlayerCharacter> It(GetWorld()); It; ++It)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("CHECCCCCCC"));
+
+		APlayerCharacter* character = *It;
+		FPlayerStat newStat = FPlayerStat();
+		newStat.SetOwner(character);
+		AllStats.Push(newStat);
+		character->Stat = newStat;
+		UE_LOG(LogTemp,Warning,TEXT("%p"),character);
+	}
+
 }
 
 void AMultiplayerGameMode::Respawn(AController* Controller)
@@ -87,6 +100,9 @@ void AMultiplayerGameMode::TriggerRespawn(AController* Controller)
 			if (SpawnedPlayer)
 			{
 				Controller->Possess(SpawnedPlayer);
+				
+
+				
 			}
 		}
 	}
@@ -99,6 +115,48 @@ void AMultiplayerGameMode::TriggerRespawn(AController* Controller)
 		if (Character)
 		{
 			Character->SetPlayerHUDVisibility(true);
+			int i = 0;
+			for(i; i < AllStats.Num(); i++)
+			{
+				if (AllStats[i].Owner == Character)
+				{
+					Character->Stat = AllStats[i];
+					
+						if (APlayerHUD* PlayerHUD = Cast<APlayerHUD>(PlayerController->GetHUD()))
+						{
+							PlayerHUD->SetKillAndDeath(AllStats[i].Kills,AllStats[i].Deaths);
+						}
+						else
+						{
+							UE_LOG(LogTemp, Error, TEXT("Can't find HUD on controller. AUTONOMOUS"))
+						}
+        		
+				}
+				
+			}
+			
 		}
 	}
+
+
+	
+}
+
+void AMultiplayerGameMode::UpdateStat(FPlayerStat stat)
+{
+	
+	for(int i = 0; i < AllStats.Num(); i++)
+	{
+		if (AllStats[i].Owner == stat.Owner)
+		{
+			AllStats[i] = stat;
+			return;
+		}
+	}
+	
+}
+
+void AMultiplayerGameMode::AddPlayer(APlayerCharacter* character)
+{
+	AllStats.Push(character->Stat);
 }

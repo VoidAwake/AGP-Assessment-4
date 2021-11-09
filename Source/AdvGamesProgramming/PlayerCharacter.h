@@ -3,9 +3,50 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerHUD.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "PlayerCharacter.generated.h"
+
+
+class APlayerCharacter;
+USTRUCT()
+struct FPlayerStat
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	int32 Kills;
+	
+	UPROPERTY()
+	int32 Deaths;
+
+	UPROPERTY()
+	APlayerCharacter* Owner;
+	
+	FPlayerStat()
+	{
+		Kills = 0;
+		Deaths = 0;
+		Owner = nullptr;
+	}
+
+	void SetOwner(APlayerCharacter* newOwner)
+	{
+		Owner = newOwner;	
+	}
+
+	void SetDeaths(int32 amount)
+	{
+		Deaths = amount;
+	}
+
+	void SetKills(int32 amount)
+	{
+		Kills = amount;
+	}
+	
+};
 
 UCLASS()
 class ADVGAMESPROGRAMMING_API APlayerCharacter : public ACharacter
@@ -30,6 +71,9 @@ public:
 	UPROPERTY(EditInstanceOnly)
 	float SprintMultiplier;
 
+	UPROPERTY(EditAnywhere)
+	FPlayerStat Stat;
+	
 	class UHealthComponent* HealthComponent;
 
 	// Called every frame
@@ -58,6 +102,12 @@ public:
 
 	void OnDeath();
 
+	UFUNCTION(BlueprintCallable)
+	void IncrementKills();
+
+	UFUNCTION(BlueprintCallable)
+	void IncrementDeaths();
+	
 private:
 
 	UCameraComponent* Camera;

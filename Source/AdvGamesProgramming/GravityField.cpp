@@ -48,7 +48,7 @@ void AGravityField::BeginPlay()
 {
 	Super::BeginPlay();
 	GravityBoxComponent->OnComponentBeginOverlap.AddDynamic(this,&AGravityField::OnOverlapBegin);
-	//
+
 	GravityBoxComponent->OnComponentEndOverlap.AddDynamic(this,&AGravityField::OnOverlapEnd);
 
 

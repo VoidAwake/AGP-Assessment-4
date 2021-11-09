@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerCharacter.h"
 #include "GameFramework/GameMode.h"
 #include "MultiplayerGameMode.generated.h"
+
 
 /**
  * 
@@ -21,6 +23,9 @@ private:
 	class APickupManager* PickupManager;
 
 public:
+
+	TArray<FPlayerStat> AllStats;
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class APickup> WeaponPickupClass;
 
@@ -28,4 +33,10 @@ public:
 	void Respawn(AController* Controller);
 	UFUNCTION()
 	void TriggerRespawn(AController* Controller);
+
+	UFUNCTION()
+	void UpdateStat(FPlayerStat stat);
+
+	UFUNCTION()
+	void AddPlayer(APlayerCharacter* character);
 };
