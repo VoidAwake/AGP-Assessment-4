@@ -2,7 +2,8 @@
 
 Jack Coggins, Francisco Castro
 
-![[3.PNG]]
+![3.PNG](3.PNG)
+
 ## Assessment 3 Contributions
 
 ### Jack
@@ -15,13 +16,13 @@ The algorithm starts by picking a random cell and generating a random tile from 
 
 The algorithm alternates between observation and propagation until the structure is complete. WFC can be used to generate buildings, landscapes and even cities, anything that can be expressed as a set of adjacency rules between tiles. Below is an example of my own WFC implementation being used to generate a simple pipe maze.
 
-![[1.png]]
+![1.png](1.png)
 
 ### Francisco
 
 For this project, I added “GravityFields”; these gravity fields, when entered, will manipulate the player's gravity to move towards the field's direction. The gravity fields can be procedurally generated with the algorithm creating the field until an object/wall is detected to which it will stop generating.
 
-![[0.png]]
+![0.png](0.png)
 
 Gravity Fields have different modes and types determined by which direction is desired being either horizontal or vertical and either have a push or pull influence to them. Gravity Fields also have another generation type that allows for the user to use a more simpler version of the procedural generation by specifying the mesh’s size instead of using the aforementioned algorithm.
 
@@ -31,7 +32,7 @@ The goal of this project was to combine the systems we developed in Assessment 3
 
 The use of both the gravity fields and wave function collapse allows for a multitude of different and creative ways of developing maps and allow for more interesting choices for players to make. For this game, we implemented a very simple map with some gravity fields to show off how it would work. Highlighting the verticality and fast paced nature of the game, as being able to move around quickly and using the gravity fields to your advantage adds a lot more varied choices and playstyle while not adding an additional button/movement mechanic to the player.
 
-![[2.png]]
+![2.png](2.png)
 
 Our implementations also have a multitude of benefits that are not related to our projects but could be used for other projects especially the wave function collapse as that algorithm can be applied in a variety of different ways including terrain generation as we have implemented. Additionally, this also applies to combining them both as our implementation lacks further procedural generation that allows for the WFC to generate the gravity fields automatically making it truly an isolated system or for making an even more interesting and unique map that the player can explore using the gravity fields and WFC. With structures on a much more bigger scale, it can be very flexible on how you can use it, for example, having a larger WFC structure to create a more cooperative experience where you could have AI that also interacts with the GF’s for a very different and interesting shooter that takes full advantage of the terrain. Implementing additional movement mechanics like wall climbing, jumping, running, double jumping etc. would also be immensely beneficial for this type of structure as the tight pipes/corridors allows for easy access to the walls with the gravity fields also allowing for continuous movement off the ground creating an exciting and thrilling experience. Finally, the system could also be used for other game types such as physics/movement based puzzle games as the gravity fields are able to interact with non-player objects which could allow for interesting ways to the player to explore and fully exploit the gravity fields and their mechanic by changing their direction in real-time or by changing their size.
 
